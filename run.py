@@ -126,7 +126,6 @@ def enter_name():
             def end_game():
     print('Thank you for playing')
     sys.exit()
-
     
 def select_board_size():
     global size
@@ -164,5 +163,88 @@ def create_board():
     user_board = temporary_board
     play_game()
 
+    def play_game():
+    tunrs = size*2
+    while True:
+        show_boards()
+        
+        # player guess
+        x, y = make_guess()
+        while not valid_guess(x, y):
+            x, y = make_guess()
+        player_hit = uc_board.guess(x, y)
+
+        # computer guess
+        x, y = random_spots(size)
+        while user_board.already_guessed(x, y):
+            x, y = random_spots(size)
+        computer_hit = user_board.guess(x, y)
+
+        # end of round
+        round_tally(player_hit, computer_hit)
+        
+        if tunrs <= 1:
+            print("GAME OVER YOUR TUNRS ARE OUT")
+            break
+        print("You have " + str(tunrs) + " turns remaining")
+        tunrs -= 1
+
+def make_guess():
+       
+        while True:
+            try:
+                print("-" * 45)
+                x = input("Guess a row:\n")
+                x = int(x)
+                y = input("Guess a column:\n")
+                y = int(y)
+                break
+            except ValueError:
+                print("Both the row and column must be numbers.")
+
+        return (x, y)
+
+def show_boards():
+    
+    uc_board.print()
+    user_board.print()
+
+def valid_guess( x, y):
+    
+    if not valid_spots(x, y, size):
+        print(f"Row and column must be between 0 and {size - 1}")
+        return False
+    if uc_board.already_guessed(x, y):
+        print("The same coordinates cannot be predicted more than once.")
+        return False
+
+    return True
+
+def game_over():
+    
+    if scores["player"] >= size or \
+        scores["computer"] >= size:
+        return True
+    return False
+
+def round_tally(player_hit, computer_hit):
+    print("-" * 45)
+    print(f"{user_board.name} guessed " +
+            f"{uc_board.last_guess()}")
+    if player_hit:
+        scores["player"] += 1
+        print("That was a hit!")
+    else:
+        print("That was a miss!")
+    print(f"Computer guessed {user_board.last_guess()}")
+    if computer_hit:
+        scores["computer"] += 1
+        print("That was a hit!")
+    else:
+        print("That was a miss!")
+    print("\nThe results after this round are:")
+    print(f"{user_board.name}:" +
+            f"{scores['player']} . Computer:{scores['computer']}")
+    print("-" * 45)
 
 view_game_guide();
