@@ -60,3 +60,11 @@ The winner is the player who locates and sinks all of their opponent's battleshi
 - This part improves replay value by giving the user control over how they want to play.
 
 ![Game Settings](/picture/1.png)
+
+#### __Board & Scores__
+
+- Based on the game settings, the board and scores section shows player ship placements, current estimates and hits, and a remaining ship count for each player.
+
+- This portion gives the player a visual representation of the state of the game as it is updated for guesses, hits, and scores after each round.
+
+![Board & Scores](/picture/3.png)
