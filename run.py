@@ -127,4 +127,42 @@ def enter_name():
     print('Thank you for playing')
     sys.exit()
 
+    
+def select_board_size():
+    global size
+    print(' Hey ' + player_name)
+    print("""
+     choosing a board size,
+     - Small
+        - Grid size = 5x5
+        - Hidden ships = 5
+     - Large
+        - Grid size = 10x10
+        - Hidden ships = 10
+    """)
+    board_size = input(' >>> Enter S for small or L for large:\n')
+
+    if board_size == 'L':
+        size = 10
+    elif board_size == 'S':
+        size = 5
+    else:
+        print('Please try once more using a different option.')
+        select_board_size()
+
+    create_board()
+
+def create_board():
+    os.system('clear')
+
+    temporary_board = Game_Board(size , "Computer", player=False)
+    global uc_board;
+    uc_board = temporary_board
+    print("-" * 45)
+    temporary_board = Game_Board(size, player_name, player=True)
+    global user_board ;
+    user_board = temporary_board
+    play_game()
+
+
 view_game_guide();
